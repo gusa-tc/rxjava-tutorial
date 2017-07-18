@@ -17,8 +17,8 @@ public class UserTest {
         User test = new User("Panda", SECRET_PASSWORD, UserRole.ADMIN);
         assertEquals("Panda", test.getUserName());
         assertEquals(UserRole.ADMIN, test.getUserRole());
-        assertFalse(test.isPasswordValid(User.DEFAULT_PASSWORD));
-        assertTrue(test.isPasswordValid(SECRET_PASSWORD));
+        assertFalse(test.isValidPassword(User.DEFAULT_PASSWORD));
+        assertTrue(test.isValidPassword(SECRET_PASSWORD));
     }
 
 
@@ -27,11 +27,11 @@ public class UserTest {
         User test = new User("Jennifer", SECRET_PASSWORD, UserRole.ADMIN);
         assertEquals("Jennifer", test.getUserName());
         assertEquals(UserRole.ADMIN, test.getUserRole());
-        assertFalse(test.isPasswordValid(User.DEFAULT_PASSWORD));
-        assertTrue(test.isPasswordValid(SECRET_PASSWORD));
+        assertFalse(test.isValidPassword(User.DEFAULT_PASSWORD));
+        assertTrue(test.isValidPassword(SECRET_PASSWORD));
         test.setPassword(SECRET_PASSWORD2);
-        assertFalse(test.isPasswordValid(SECRET_PASSWORD));
-        assertTrue(test.isPasswordValid(SECRET_PASSWORD2));
+        assertFalse(test.isValidPassword(SECRET_PASSWORD));
+        assertTrue(test.isValidPassword(SECRET_PASSWORD2));
     }
 
 
@@ -42,7 +42,7 @@ public class UserTest {
 
         assertEquals("Alan", test.getUserName());
         assertEquals(UserRole.GUEST, test.getUserRole());
-        assertTrue(test.isPasswordValid(User.DEFAULT_PASSWORD));
+        assertTrue(test.isValidPassword(User.DEFAULT_PASSWORD));
 
     }
 }

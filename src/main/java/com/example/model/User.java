@@ -1,18 +1,18 @@
 package com.example.model;
 
 import lombok.Data;
-import org.mindrot.jbcrypt.BCrypt;
 
 @Data
-public class User {
+public class User implements PasswordVault{
     public static final String DEFAULT_PASSWORD = "_Passw0rd$1";
     private final String userName;
-    private String password;
+    private final PasswordVault passwordVault;
     private UserRole userRole;
 
     public User(String userName, String password, UserRole userRole) {
         this.userName = userName;
         this.userRole = userRole;
+        this.passwordVault = new BCryptPasswordVault();
         setPassword(password);
     }
 
@@ -24,20 +24,26 @@ public class User {
         return userName;
     }
 
-    public void setPassword(String password) {
-        this.password = BCrypt.hashpw(password, BCrypt.gensalt());
-    }
-
-    public boolean isPasswordValid(String password) {
-        return BCrypt.checkpw(password, this.password);
-    }
-
-
     public UserRole getUserRole() {
         return userRole;
     }
 
     public void setUserRole(UserRole userRole) {
         this.userRole = userRole;
+    }
+
+    @Override
+    public void setPassword(String plaintext) {
+        passwordVault.setPassword(plaintext);
+    }
+
+    @Override
+    public String getPassword() {
+        return passwordVault.getPassword();
+    }
+
+    @Override
+    public boolean isValidPassword(String plaintext) {
+        return passwordVault.isValidPassword(plaintext);
     }
 }
